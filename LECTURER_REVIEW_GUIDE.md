@@ -303,7 +303,7 @@ This ensures your review focuses on the technical content rather than developmen
 
 ---
 
-**Thank you for reviewing my FYP project!**
+**Thank you for reviewing this project!**
 
 For the complete project overview, start with [`README.md`](./README.md) or [`MASTER_CONSOLIDATION.md`](./MASTER_CONSOLIDATION.md).
 
