@@ -1,7 +1,7 @@
 # LECTURER REVIEW GUIDE
 
 **Project:** 9th-Order SEPIC PFC Converter - Complete Mathematical Model  
-**Student:** sebichin  
+**Student:** Sebastian  
 **Date Prepared:** October 31, 2025  
 **Purpose:** Academic Review Copy
 
@@ -9,7 +9,7 @@
 
 ## WHAT THIS IS
 
-This is a **clean, standalone copy** of my FYP project prepared specifically for your review. This package contains:
+This is a **clean, standalone copy** of the project prepared specifically for your review. This package contains:
 
 ✅ **Complete project files** - All documentation, code, and presentations  
 ✅ **Fresh git repository** - Single initial commit (no development history)  
@@ -256,7 +256,7 @@ If you have questions during your review:
 ### Project Status
 **✅ PHASE 1 COMPLETE - READY FOR REVIEW**
 
-This represents Phase 1 of my FYP work on the 9th-order SEPIC PFC converter analysis:
+This represents Phase 1 of the work on the 9th-order SEPIC PFC converter analysis:
 - **Verified:** All circuit analysis and equation derivations
 - **Complete:** Comprehensive 180+ pages of documentation
 - **Pending:** MATLAB code execution and simulation validation (Phase 2)
