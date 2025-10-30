@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 09: Critical Insight - Output Inductor Modes</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        .content-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 15px;
+        }
+        .mode-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 15px 18px;
+            border-left: 4px solid #3498db;
+        }
+        .mode-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 12px;
+        }
+        .mode-row {
+            margin-bottom: 10px;
+        }
+        .mode-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 3px;
+        }
+        .mode-value {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+        }
+        .equation-display {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 10px;
+            margin: 5px 0;
+            border-radius: 3px;
+        }
+        .sign-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        .negative-sign {
+            background: rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+        .positive-sign {
+            background: rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
+        }
+        .note-section {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 12px 18px;
+            margin-top: 15px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">Critical Insight 2: Output Inductors L5, L6 Operation Modes</h1>
+        
+        <div class="content-columns">
+            <!-- STORAGE Mode -->
+            <div class="mode-box">
+                <div class="mode-title">STORAGE Mode (Switch ON)</div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Physical State:</div>
+                    <div class="mode-value">Switch closed, output diode reverse biased</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Current Path (L5 example):</div>
+                    <div class="mode-value">L5 → C1 → S1 → L5 (series loop)</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Current Direction:</div>
+                    <div class="mode-value">REVERSE (opposite to output)</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Equation:</div>
+                    <div class="equation-display">diL5/dt = -vC1 / L5</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Sign:</div>
+                    <div class="mode-value">
+                        <span class="sign-indicator negative-sign">NEGATIVE</span> (iL5 becomes more negative)
+                    </div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Energy:</div>
+                    <div class="mode-value">Building magnetic energy in reverse direction</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Analogy:</div>
+                    <div class="mode-value">"Winding a spring backwards"</div>
+                </div>
+            </div>
+            
+            <!-- TRANSFER Mode -->
+            <div class="mode-box">
+                <div class="mode-title">TRANSFER Mode (Switch OFF)</div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Physical State:</div>
+                    <div class="mode-value">Switch open, output diode forward biased</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Current Path (L5 example):</div>
+                    <div class="mode-value">C1 → L5 → D8 → Cout</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Current Direction:</div>
+                    <div class="mode-value">FORWARD (toward output)</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Equation:</div>
+                    <div class="equation-display">diL5/dt = vC0 / L5</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Sign:</div>
+                    <div class="mode-value">
+                        <span class="sign-indicator positive-sign">POSITIVE</span> (iL5 increases, releasing energy)
+                    </div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Energy:</div>
+                    <div class="mode-value">Releasing stored energy to output</div>
+                </div>
+                
+                <div class="mode-row">
+                    <div class="mode-label">Analogy:</div>
+                    <div class="mode-value">"Spring unwinding to do work"</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="note-section">
+            <div class="note-text">
+                <strong style="color: #f39c12;">Fundamental SEPIC Mechanism:</strong> This reverse-charge-then-release mechanism is fundamental to SEPIC energy transfer. Output inductors act as energy buffers, storing magnetic energy during switch-ON intervals and releasing it to the output during switch-OFF intervals. This enables the SEPIC topology to step up or step down voltage while maintaining input-output isolation through the coupling capacitors.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

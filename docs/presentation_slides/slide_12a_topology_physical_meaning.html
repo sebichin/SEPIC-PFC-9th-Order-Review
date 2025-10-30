@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 12a: Physical Meaning of Topology 11</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-subtitle {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .content-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 15px 20px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 15px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        .description-text {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+        .circuit-diagram {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+        .phase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .phase-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+        }
+        .phase-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 8px;
+        }
+        .bullet-list {
+            margin-left: 15px;
+            margin-top: 8px;
+        }
+        .bullet-item {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+        .energy-flow {
+            background: linear-gradient(90deg, rgba(46, 204, 113, 0.2), rgba(46, 204, 113, 0.05));
+            padding: 10px;
+            border-left: 3px solid #2ecc71;
+            margin: 8px 0;
+            font-size: 12px;
+            color: #e8f1f8;
+            font-family: 'Courier New', monospace;
+        }
+        .note-section {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">Physical Meaning of Topology 11</h1>
+        <p class="slide-subtitle">What Happens When Both Switches Are ON (Storage Mode)</p>
+        
+        <div class="content-box">
+            <div class="section-title">Topology 11: Both S1 and S2 Closed</div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Operating Mode:</strong> MAXIMUM ENERGY STORAGE - Both phases simultaneously accumulate energy
+            </div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Diode States:</strong> D7 and D8 are REVERSE BIASED → No power flows to output
+            </div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Output Behavior:</strong> Load is supplied only by output capacitor C0 (discharging)
+            </div>
+        </div>
+        
+        <div class="phase-grid">
+            <div class="phase-box">
+                <div class="phase-title">Phase 1 (Switch S1 Closed)</div>
+                <div class="energy-flow" style="white-space: pre;">
+V<sub>in</sub>(+) → L2 →    C1  ←   L5 ← S1 ← GND
+         ↓       ↓       ↑
+      charges charges  reverse
+                      current
+                       builds
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">• <strong>L2 charges:</strong> Current increases as di<sub>L2</sub>/dt = V<sub>in</sub>/L2 (direct path from source)</div>
+                    <div class="bullet-item">• <strong>C1 accumulates:</strong> Voltage rises as dv<sub>C1</sub>/dt = (i<sub>L2</sub> - i<sub>L5</sub>)/C1</div>
+                    <div class="bullet-item">• <strong>L5 reverse charges:</strong> Current becomes MORE negative as di<sub>L5</sub>/dt = -v<sub>C1</sub>/L5</div>
+                    <div class="bullet-item">• <strong>Energy stored:</strong> Magnetic energy in L2, L5; electric energy in C1</div>
+                </div>
+            </div>
+            
+            <div class="phase-box">
+                <div class="phase-title">Phase 2 (Switch S2 Closed)</div>
+                <div class="energy-flow" style="white-space: pre;">
+V<sub>in</sub>(+) → L1 →    C3  ←   L6 ← S2 ← GND
+         ↓       ↓       ↑
+      charges charges  reverse
+                      current
+                       builds
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">• <strong>L1 charges:</strong> Current increases as di<sub>L1</sub>/dt = V<sub>in</sub>/L1 (direct path from source)</div>
+                    <div class="bullet-item">• <strong>C3 accumulates:</strong> Voltage rises as dv<sub>C3</sub>/dt = (i<sub>L1</sub> - i<sub>L6</sub>)/C3</div>
+                    <div class="bullet-item">• <strong>L6 reverse charges:</strong> Current becomes MORE negative as di<sub>L6</sub>/dt = -v<sub>C3</sub>/L6</div>
+                    <div class="bullet-item">• <strong>Energy stored:</strong> Magnetic energy in L1, L6; electric energy in C3</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-box">
+            <div class="section-title">Why "Reverse Charging" of L5 and L6?</div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Current direction convention:</strong> We define positive current as flowing toward the output (through D7/D8).
+            </div>
+            <div class="description-text">
+                When S1/S2 close, they create a low-resistance path to ground. Current in L5/L6 flows <strong>AWAY from output</strong> (toward the switch). This is the <strong>opposite direction</strong> from our convention → current becomes negative.
+            </div>
+            <div class="description-text">
+                <strong style="color: #3498db;">The key insight:</strong> This "reverse momentum" is intentional. When switches open, inductors cannot change current instantly. The built-up reverse current will now be forced to flow forward through D7/D8, transferring stored energy to the output.
+            </div>
+        </div>
+        
+        <div class="note-section">
+            <div class="note-text">
+                <strong style="color: #f39c12;">Practical Implication:</strong> Topology 11 occurs when both switches have high duty cycles that overlap. During this interval, the converter draws maximum current from the AC source, storing energy for later transfer. The output voltage sag during this phase is minimal due to C0's large capacitance (hundreds of μF).
+            </div>
+        </div>
+    </div>
+</body>
+</html>

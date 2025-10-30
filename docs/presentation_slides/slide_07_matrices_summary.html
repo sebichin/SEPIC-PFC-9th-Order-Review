@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 7: Summary of All Four Topology Matrices</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-subtitle {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 18px;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .topology-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 10px;
+            border-left: 3px solid #3498db;
+        }
+        .topology-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 5px;
+        }
+        .matrix-content {
+            font-family: 'Courier New', monospace;
+            font-size: 8px;
+            color: #ffffff;
+            line-height: 1.2;
+            white-space: pre;
+        }
+        .key-differences {
+            background: linear-gradient(90deg, rgba(46, 204, 113, 0.2), rgba(46, 204, 113, 0.08));
+            padding: 12px 15px;
+            margin-top: 10px;
+            border-left: 4px solid #2ecc71;
+        }
+        .diff-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2ecc71;
+            margin-bottom: 8px;
+        }
+        .diff-list {
+            font-size: 11px;
+            color: #e8f1f8;
+            line-height: 1.5;
+        }
+        .highlight {
+            color: #f39c12;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="slide-title">Summary: All Four Topology Matrices</div>
+        <div class="slide-subtitle">Building Blocks for State-Space Averaged Model</div>
+        
+        <div class="comparison-grid">
+            <div class="topology-box">
+                <div class="topology-title">Topology 11 (Both ON - Storage)</div>
+                <div class="matrix-content">
+A11: Rows 1-6: Direct charging (L1, L2), reverse (L5, L6)
+     Row 7: dvC1/dt = <span class="highlight">(-iL5)/C1</span>
+     Row 8: dvC3/dt = <span class="highlight">(-iL6)/C3</span>
+     Row 9: dvC0/dt = 0 (CPL separate)
+     
+Key: L1, L2 charge from Vin (no cap voltage)
+     L5, L6 reverse charge through C1, C3
+     Output isolated (no power transfer)
+                </div>
+            </div>
+            
+            <div class="topology-box">
+                <div class="topology-title">Topology 10 (S1 ON, S2 OFF)</div>
+                <div class="matrix-content">
+A10: Row 1: L1 discharges via -vC3, -vC0
+     Row 2: L2 direct charging
+     Row 5: L5 reverse via -vC1
+     Row 6: L6 forward via +vC0
+     Row 7: dvC1/dt = (-iL5)/C1
+     Row 8: dvC3/dt = <span class="highlight">iL1/C3</span>
+     Row 9: dvC0/dt = <span class="highlight">(iL1+iL6)/C0</span>
+     
+Key: Phase 1 stores, Phase 2 transfers
+     L1, L6 both contribute to output
+                </div>
+            </div>
+            
+            <div class="topology-box">
+                <div class="topology-title">Topology 01 (S1 OFF, S2 ON)</div>
+                <div class="matrix-content">
+A01: Row 1: L1 direct charging
+     Row 2: L2 discharges via -vC1, -vC0
+     Row 5: L5 forward via +vC0
+     Row 6: L6 reverse via -vC3
+     Row 7: dvC1/dt = <span class="highlight">iL2/C1</span>
+     Row 8: dvC3/dt = (-iL6)/C3
+     Row 9: dvC0/dt = <span class="highlight">(iL2+iL5)/C0</span>
+     
+Key: Phase 2 stores, Phase 1 transfers
+     L2, L5 both contribute to output
+     Symmetric to Topology 10
+                </div>
+            </div>
+            
+            <div class="topology-box">
+                <div class="topology-title">Topology 00 (Both OFF - Max Transfer)</div>
+                <div class="matrix-content">
+A00: Rows 1-2: Both L1, L2 discharge
+     Rows 5-6: Both L5, L6 forward via +vC0
+     Row 7: dvC1/dt = <span class="highlight">iL2/C1</span>
+     Row 8: dvC3/dt = <span class="highlight">iL1/C3</span>
+     Row 9: dvC0/dt = <span class="highlight">(iL1+iL2+iL5+iL6)/C0</span>
+     
+Key: Both phases transfer simultaneously
+     ALL FOUR active inductors contribute
+     Maximum power delivery mode
+                </div>
+            </div>
+        </div>
+        
+        <div class="key-differences">
+            <div class="diff-title">Key Pattern Observations</div>
+            <div class="diff-list">
+                • <strong>Capacitor charging:</strong> C1 charges from iL2 (when S1 OFF) or -iL5 (when S1 ON). C3 charges from iL1 (when S2 OFF) or -iL6 (when S2 ON).<br>
+                • <strong>Output current sources:</strong> Topology 11: none (isolated). Topology 10/01: 2 inductors. Topology 00: 4 inductors.<br>
+                • <strong>Reverse vs. Forward:</strong> When switch ON, output inductor reverse charges (negative current). When switch OFF, it discharges forward (positive contribution to output).<br>
+                • <strong>These 4 matrices are averaged:</strong> A<sub>avg</sub> = w<sub>11</sub>·A<sub>11</sub> + w<sub>10</sub>·A<sub>10</sub> + w<sub>01</sub>·A<sub>01</sub> + w<sub>00</sub>·A<sub>00</sub> (next slide explains w<sub>k</sub> weights)
+            </div>
+        </div>
+    </div>
+</body>
+</html>

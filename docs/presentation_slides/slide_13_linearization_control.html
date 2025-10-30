@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 13: Linearization for Control Design</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-subtitle {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .step-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 12px 18px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 12px;
+        }
+        .step-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 8px;
+        }
+        .equation-block {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: #ffffff;
+            line-height: 1.5;
+            margin: 6px 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 10px;
+            border-radius: 3px;
+        }
+        .description-text {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+            margin: 5px 0;
+        }
+        .applications-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 12px 18px;
+            border-left: 4px solid #3498db;
+            margin-top: 12px;
+        }
+        .applications-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 8px;
+        }
+        .app-item {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin-bottom: 4px;
+        }
+        .note-section {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            margin-top: 12px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">Level 3: Small-Signal Linearization</h1>
+        <p class="slide-subtitle">From Nonlinear Averaged Model to Linear Transfer Functions</p>
+        
+        <div class="step-box">
+            <div class="step-title">Why Linearize? Unlocking Linear Control Theory</div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Challenge:</strong> The averaged model is still nonlinear due to:
+            </div>
+            <div class="description-text" style="margin-left: 20px;">
+                • CPL load: f<sub>CPL</sub> = -P/(C0·vC0) (nonlinear in vC0)<br>
+                • Duty cycle dependencies in A<sub>avg</sub>(d1, d2)
+            </div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Solution:</strong> Linearize around a DC operating point to use powerful linear control design tools:
+            </div>
+            <div class="description-text" style="margin-left: 20px;">
+                • Bode plots for frequency response analysis<br>
+                • Root locus for pole placement<br>
+                • Standard PI/PID controller tuning methods
+            </div>
+        </div>
+        
+        <div class="step-box">
+            <div class="step-title">Step 1: Perturbation About Operating Point</div>
+            <div class="equation-block" style="white-space: pre;">
+Nonlinear averaged model: ẋ = f(x, d1, d2, V<sub>in</sub>)
+
+Decompose each variable: x = x<sub>0</sub> + Δx,  d1 = d<sub>10</sub> + Δd1,  etc.
+
+At steady state: 0 = f(x<sub>0</sub>, d<sub>10</sub>, d<sub>20</sub>, V<sub>in0</sub>)
+            </div>
+            <div class="description-text">
+                Operating point (x<sub>0</sub>, d<sub>10</sub>, d<sub>20</sub>, V<sub>in0</sub>) found via fsolve (MATLAB) or Newton-Raphson
+            </div>
+        </div>
+        
+        <div class="step-box">
+            <div class="step-title">Step 2: Jacobian Linearization</div>
+            <div class="description-text">
+                Taylor series expansion: f(x<sub>0</sub>+Δx, d<sub>10</sub>+Δd1, ...) ≈ f(x<sub>0</sub>, d<sub>10</sub>, ...) + <strong>∂f/∂x·Δx</strong> + <strong>∂f/∂d1·Δd1</strong> + ...
+            </div>
+            <div class="equation-block" style="white-space: pre;">
+<strong>State Jacobian (A<sub>linear</sub>):</strong>
+A<sub>linear</sub> = ∂f/∂x |<sub>(x0,d10,d20,Vin0)</sub> = A<sub>avg</sub>(d<sub>10</sub>,d<sub>20</sub>) + ∂f<sub>CPL</sub>/∂x
+
+<strong>CPL Term Derivative (critical for stability):</strong>
+f<sub>CPL</sub>(vC0) = -P/(C0·vC0)  →  row 9 of f
+
+∂f<sub>CPL</sub>/∂vC0 = ∂/∂vC0[-P/(C0·vC0)] = -P/(C0)·(-1/vC0²) = <strong>+P/(C0·vC0²)</strong>
+
+Therefore: A<sub>linear</sub>(9,9) = 0 + P/(C0·vC0<sub>0</sub>²)  (POSITIVE term → destabilizing)
+            </div>
+        </div>
+        
+        <div class="step-box">
+            <div class="step-title">Step 3: Control Input Jacobian (B<sub>d</sub>)</div>
+            <div class="description-text">
+                B<sub>d</sub> represents how duty cycle perturbations affect state derivatives
+            </div>
+            <div class="equation-block" style="white-space: pre;">
+B<sub>d</sub> = [∂f/∂d1 | ∂f/∂d2] |<sub>(x0,d10,d20,Vin0)</sub>   (9×2 matrix)
+
+<strong>Chain rule (duty cycles affect A<sub>avg</sub> and B<sub>in,avg</sub>):</strong>
+∂f/∂d1 = (∂A<sub>avg</sub>/∂d1)·x<sub>0</sub> + (∂B<sub>in,avg</sub>/∂d1)·V<sub>in0</sub>
+∂f/∂d2 = (∂A<sub>avg</sub>/∂d2)·x<sub>0</sub> + (∂B<sub>in,avg</sub>/∂d2)·V<sub>in0</sub>
+
+(Derivatives of w<sub>k</sub> w.r.t. d1, d2 propagate through weighted sum)
+            </div>
+        </div>
+        
+        <div class="step-box">
+            <div class="step-title">Step 4: Linearized Model and Transfer Functions</div>
+            <div class="equation-block" style="white-space: pre;">
+<strong>Small-signal model:</strong>
+Δẋ = A<sub>linear</sub>·Δx + B<sub>d</sub>·[Δd1; Δd2] + B<sub>in</sub>·ΔV<sub>in</sub>
+
+<strong>Transfer functions (Laplace domain):</strong>
+G(s) = C·(sI - A<sub>linear</sub>)<sup>-1</sup>·B<sub>d</sub>
+
+Example: G<sub>vd1</sub>(s) = output voltage to duty d1 → C = [0 0 0 0 0 0 0 0 1]
+            </div>
+        </div>
+        
+        <div class="applications-box">
+            <div class="applications-title">Control Design Applications</div>
+            <div class="app-item">• G<sub>id</sub>(s): duty → input current (inner loop for PFC, tracks AC reference)</div>
+            <div class="app-item">• G<sub>vd</sub>(s): duty → bus voltage (outer loop for regulation)</div>
+            <div class="app-item">• PI/PID tuning via Bode plots, phase/gain margins</div>
+            <div class="app-item">• Stability assessment: check poles of (sI - A<sub>linear</sub>)<sup>-1</sup> for LHP (stable)</div>
+        </div>
+        
+        <div class="note-section">
+            <div class="note-text">
+                <strong style="color: #f39c12;">Critical Insight:</strong> The CPL term +P/(C0·vC0<sub>0</sub>²) in A<sub>linear</sub>(9,9) acts as negative incremental resistance, potentially pushing poles toward RHP (instability). Control design must provide sufficient damping to counteract this destabilizing effect, especially at high power loads.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 12: Averaging Methodology</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-subtitle {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .step-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 15px 20px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 15px;
+        }
+        .step-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        .equation-block {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 8px 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 3px;
+        }
+        .description-text {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+        .formula-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #3498db;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        .note-section {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">Level 2: State-Space Averaging</h1>
+        <p class="slide-subtitle">From Basic 2-State to Advanced 4-Topology Averaging</p>
+        
+        <div class="step-box">
+            <div class="step-title">Why Averaging? Understanding the Time-Scale Separation</div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Problem:</strong> Switches operate at high frequency (f<sub>sw</sub> = 50 kHz), but we want to control low-frequency dynamics (AC line = 50/60 Hz, control bandwidth ~kHz).
+            </div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Solution:</strong> State-space averaging "smooths out" rapid switching ripple, revealing the slower underlying dynamics that are relevant for control design.
+            </div>
+        </div>
+        
+        <div class="step-box">
+            <div class="step-title">Foundation: Standard SEPIC Averaging (2 States)</div>
+            <div class="description-text">
+                A standard SEPIC has switch ON (duration D·T<sub>s</sub>) and OFF (duration (1-D)·T<sub>s</sub>)
+            </div>
+            <div class="equation-block">
+<strong>Classical averaging formula:</strong>
+<br>
+A<sub>avg</sub> = D·A₁ + (1-D)·A₂
+<br>
+B<sub>avg</sub> = D·B₁ + (1-D)·B₂
+<br><br>
+where D is the duty cycle (0 &lt; D &lt; 1)
+            </div>
+            <div class="description-text" style="margin-top: 8px;">
+                <strong style="color: #3498db;">Physical meaning:</strong> The averaged model represents the "time-weighted" behavior over one switching period, eliminating high-frequency ripple while preserving low-frequency dynamics.
+            </div>
+        </div>
+        
+        <div class="step-box">
+            <div class="step-title">Extension: Two-Phase Interleaved System (4 Topologies)</div>
+            <div class="description-text">
+                With two independent switches (S1, S2), we have four possible combinations:<br>
+                <strong>11</strong> (both ON), <strong>10</strong> (S1 ON, S2 OFF), <strong>01</strong> (S1 OFF, S2 ON), <strong>00</strong> (both OFF)
+            </div>
+            <div class="equation-block">
+<strong>Understanding Topology Weights:</strong>
+<br>
+• <strong>k</strong> = topology index ∈ {11, 10, 01, 00} (binary representation of switch states S1S2)
+<br>
+• <strong>w<sub>k</sub></strong> = "duration weight" = <strong>fraction of switching period T<sub>s</sub></strong> spent in topology k
+<br>
+  Example: If w<sub>11</sub> = 0.3, the system spends 30% of each cycle with both switches ON
+<br>
+• <strong>Why needed?</strong> Each topology has different energy transfer characteristics (storage vs. transfer).
+  Knowing how long we spend in each mode lets us calculate the average behavior.
+<br>
+<strong>Constraint:</strong> w<sub>11</sub> + w<sub>10</sub> + w<sub>01</sub> + w<sub>00</sub> = 1
+<br>
+  (System must be in exactly one of the four topologies at all times)
+            </div>
+            
+            <div class="formula-label">Timing Diagram Visualization:</div>
+            <div class="description-text">
+                The numbers below each diagram show <strong>time markers</strong> within one switching period T<sub>s</sub>. They indicate when each topology begins/ends, measured from time 0 at the start of the period.
+            </div>
+            
+            <div class="equation-block" style="font-size: 10px; white-space: pre;">
+<strong>Non-overlapping (d1=0.3, d2=0.4, sum=0.7 &lt; 1):</strong>
+T<sub>s</sub>: |----S1 ON----|----S2 ON-----|-----BOTH OFF-----|
+    0           d1·T<sub>s</sub>        (d1+d2)·T<sub>s</sub>             T<sub>s</sub>         
+    |←  w<sub>10</sub>=0.3  →|←   w<sub>01</sub>=0.4   →|←     w<sub>00</sub>=0.3     →|
+
+Time markers explained:
+• 0: Start of period
+• d1·T<sub>s</sub>: S1 turns OFF at time = (duty cycle d1) × (period T<sub>s</sub>)
+• (d1+d2)·T<sub>s</sub>: S2 turns OFF
+• T<sub>s</sub>: End of period (next cycle begins)
+            </div>
+            
+            <div class="equation-block" style="font-size: 10px; white-space: pre;">
+<strong>Overlapping (d1=0.6, d2=0.7, sum=1.3 ≥ 1):</strong>
+T<sub>s</sub>: |--S1-only--|---BOTH ON----|--S2-only--|
+0=(1-d2)·T<sub>s</sub>  (d1+d2-1)·T<sub>s</sub>   (1-d1)·T<sub>s</sub>      T<sub>s</sub>
+    |← w<sub>10</sub>=0.3 →|←   w<sub>11</sub>=0.3   →|← w<sub>01</sub>=0.4 →|
+
+Time markers explained:
+• 0: S1 turns ON first 
+• (1-d2)·T<sub>s</sub>: S2 turns OFF, leaving only S1 ON
+• (1-d1)·T<sub>s</sub>: Both ON briefly before S1 turns OFF
+• (d1+d2-1)·T<sub>s</sub>: S1 turns OFF, only S2 ON remains
+• T<sub>s</sub>: End of period
+            </div>
+            
+            <div class="formula-label">Duty Cycle Weight Derivation:</div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Key insight:</strong> Each weight w<sub>k</sub> = (duration of topology k) / T<sub>s</sub>
+            </div>
+            
+            <div class="equation-block">
+<strong>Non-overlapping case (d1 + d2 &lt; 1):</strong>
+Switches never ON simultaneously, so w<sub>11</sub> = 0.
+<br>
+• S1 is ON alone for duration = d1·T<sub>s</sub> → w<sub>10</sub> = d1
+<br>
+• S2 is ON alone for duration = d2·T<sub>s</sub> → w<sub>01</sub> = d2
+<br>
+• Both OFF for remaining time: T<sub>s</sub> - d1·T<sub>s</sub> - d2·T<sub>s</sub> = (1-d1-d2)·T<sub>s</sub>
+  → w<sub>00</sub> = 1-d1-d2
+<br>
+Check: w<sub>10</sub> + w<sub>01</sub> + w<sub>00</sub> = d1 + d2 + (1-d1-d2) = 1 ✓
+            </div>
+            
+            <div class="equation-block">
+<strong>Overlapping case (d1 + d2 ≥ 1):</strong>
+Switches have overlapping ON times.
+
+Assume S1 turns ON at t=0 and stays ON for d1·T<sub>s</sub>.
+S2 turns ON at t=0 and stays ON for d2·T<sub>s</sub>.
+<br>
+• S1-only period: From t=d2·T<sub>s</sub> (when S2 turns OFF) to t=d1·T<sub>s</sub> (when S1 turns OFF)
+<br>
+  Duration = d1·T<sub>s</sub> - d2·T<sub>s</sub> = (d1-d2)·T<sub>s</sub>
+  <br>
+  But we need this in normalized form: Since d2 &gt; 1-d1, rearranging gives:
+  w<sub>10</sub> = 1 - d2
+  <br>
+
+• Both ON period: Overlap from t=0 to min(d1·T<sub>s</sub>, d2·T<sub>s</sub>)<br>
+  When d1+d2 ≥ 1, overlap duration = d1·T<sub>s</sub> + d2·T<sub>s</sub> - T<sub>s</sub> = (d1+d2-1)·T<sub>s</sub>
+  → w<sub>11</sub> = d1+d2-1
+<br>
+• S2-only period: Symmetric to S1-only
+  w<sub>01</sub> = 1 - d1
+<br>
+• Both OFF: Since duty cycles overlap, no time remains with both OFF
+  → w<sub>00</sub> = 0
+<br>
+Check: w<sub>11</sub> + w<sub>10</sub> + w<sub>01</sub> = (d1+d2-1) + (1-d2) + (1-d1) = 1 ✓
+            </div>
+        </div>
+        
+        <div class="step-box">
+            <div class="step-title">Final Averaged Model</div>
+            <div class="equation-block">
+<strong>State Matrix (time-weighted average):</strong>
+<br>
+A<sub>avg</sub>(d1,d2) = w<sub>11</sub>·A<sub>11</sub> + w<sub>10</sub>·A<sub>10</sub> + w<sub>01</sub>·A<sub>01</sub> + w<sub>00</sub>·A<sub>00</sub>
+<br><br>
+<strong>Input Matrix (with AC polarity handling):</strong>
+<br>
+B<sub>in,avg</sub>(d1,d2,s) = s·(w<sub>11</sub>·B<sub>11</sub> + w<sub>10</sub>·B<sub>10</sub> + w<sub>01</sub>·B<sub>01</sub> + w<sub>00</sub>·B<sub>00</sub>)
+<br><br>
+<strong>Complete averaged system:</strong>
+<br>
+ẋ = A<sub>avg</sub>(d1,d2)·x + B<sub>in,avg</sub>(d1,d2,s)·V<sub>in</sub> + f<sub>CPL</sub>(vC0)
+            </div>
+            
+            <div class="description-text" style="margin-top: 10px;">
+                <strong style="color: #3498db;">Understanding the 's' variable:</strong>
+            </div>
+            <div class="description-text">
+                <strong>s = sign(V<sub>in</sub>) ∈ {+1, -1}</strong> handles AC input polarity
+            </div>
+            <div class="description-text">
+                <strong>Why do we need it?</strong> This converter is a <strong>PFC (Power Factor Correction) rectifier</strong> operating directly from AC mains:
+                <br>
+                • <strong>Positive half-cycle (V<sub>in</sub> &gt; 0):</strong> s = +1 → Current flows through L1, L2 (active), L3, L4 inactive
+                <br>
+                • <strong>Negative half-cycle (V<sub>in</sub> &lt; 0):</strong> s = -1 → Current flows through L3, L4 (active), L1, L2 inactive
+                <br>
+                The <strong>bridgeless topology</strong> uses different inductor sets for each AC polarity, eliminating the need for a diode bridge rectifier (reducing losses by ~1-2%). The sign variable ensures the averaged model correctly represents energy flow regardless of AC polarity.
+            </div>
+        </div>
+        
+        <div class="note-section">
+            <div class="note-text">
+                <strong style="color: #f39c12;">Key Insight:</strong> This 4-topology averaging generalizes the classical 2-state method. It captures the complex interleaved operation while maintaining the same fundamental principle: time-weighted averaging over a switching period smooths out high-frequency ripple (50 kHz) to reveal low-frequency control dynamics.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

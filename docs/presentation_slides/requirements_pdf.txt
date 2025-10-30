@@ -1,0 +1,15 @@
+# Python Dependencies for HTML to PDF Conversion
+# 
+# Installation:
+#   pip install -r requirements_pdf.txt
+#   playwright install chromium
+#
+# For the HTML to PDF converter script (html_to_pdf_converter.py)
+
+# Playwright - Browser automation for high-fidelity HTML rendering
+# Uses real Chromium browser for perfect CSS, web fonts, and layout rendering
+playwright==1.40.0
+
+# PyPDF2 - PDF manipulation library
+# Used for combining individual slide PDFs into single presentation file
+PyPDF2==3.0.1

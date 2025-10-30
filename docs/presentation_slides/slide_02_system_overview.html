@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 02: System Overview</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 38px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+        .content-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 15px 20px;
+            border-left: 3px solid #3498db;
+            margin-bottom: 15px;
+        }
+        .content-text {
+            font-size: 14px;
+            color: #e8f1f8;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .state-vector {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #ffffff;
+            line-height: 1.8;
+            margin: 10px 0;
+        }
+        .topology-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .topology-item {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            border-left: 3px solid #f39c12;
+        }
+        .topology-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 4px;
+        }
+        .topology-desc {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+        .note-section {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">System Overview</h1>
+        
+        <div class="content-box">
+            <div class="content-text">
+                <strong style="color: #ffffff;">Converter Topology:</strong> 9th-order interleaved bridgeless SEPIC (Single-Ended Primary-Inductor Converter) with Power Factor Correction (PFC) capability
+            </div>
+            <div class="content-text">
+                <strong style="color: #ffffff;">System Order:</strong> 9th-order system comprising 6 inductors and 3 capacitors
+            </div>
+        </div>
+        
+        <div class="section-title">State Vector Definition</div>
+        <div class="content-box">
+            <div class="state-vector">
+                x = [iL1, iL2, iL3, iL4, iL5, iL6, vC1, vC3, vC0]<sup>T</sup>
+            </div>
+            <div class="content-text">
+                <strong>Where:</strong><br>
+                • iL1, iL2: Phase 2 and Phase 1 input inductors (positive cycle)<br>
+                • iL3, iL4: Phase 1 and Phase 2 input inductors (negative cycle - inactive for V<sub>in</sub> &gt; 0)<br>
+                • iL5, iL6: Phase 1 and Phase 2 output inductors<br>
+                • vC1, vC3: Phase 1 and Phase 2 coupling capacitors<br>
+                • vC0: Output (bus) capacitor voltage
+            </div>
+        </div>
+        
+        <div class="section-title">Four Switching Topologies</div>
+        <div class="topology-list">
+            <div class="topology-item">
+                <div class="topology-name">Topology 11 (S1 ON, S2 ON)</div>
+                <div class="topology-desc">Both phases store energy from AC source. Output bus isolated.</div>
+            </div>
+            <div class="topology-item">
+                <div class="topology-name">Topology 10 (S1 ON, S2 OFF)</div>
+                <div class="topology-desc">Phase 1 stores energy. Phase 2 transfers to output.</div>
+            </div>
+            <div class="topology-item">
+                <div class="topology-name">Topology 01 (S1 OFF, S2 ON)</div>
+                <div class="topology-desc">Phase 2 stores energy. Phase 1 transfers to output.</div>
+            </div>
+            <div class="topology-item">
+                <div class="topology-name">Topology 00 (S1 OFF, S2 OFF)</div>
+                <div class="topology-desc">Both phases transfer energy to output simultaneously.</div>
+            </div>
+        </div>
+        
+        <div class="note-section">
+            <div class="note-text">
+                <strong style="color: #f39c12;">Note:</strong> This analysis focuses on the positive half-cycle (V<sub>in</sub> &gt; 0). Each topology has 9 differential equations, resulting in a complete set of 36 equations (4 topologies × 9 states).
+            </div>
+        </div>
+    </div>
+</body>
+</html>

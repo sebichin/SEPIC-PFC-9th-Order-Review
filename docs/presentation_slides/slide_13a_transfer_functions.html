@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 13a: Transfer Functions Explained</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-subtitle {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .content-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 15px 20px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 15px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        .description-text {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+        .equation-block {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .example-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .example-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+        }
+        .example-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 8px;
+        }
+        .bullet-list {
+            margin-left: 15px;
+            margin-top: 8px;
+        }
+        .bullet-item {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+        .note-section {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">What is a Transfer Function?</h1>
+        <p class="slide-subtitle">The Bridge Between Mathematical Models and Control Design</p>
+        
+        <div class="content-box">
+            <div class="section-title">Simple Definition</div>
+            <div class="description-text">
+                A <strong>transfer function</strong> is a mathematical tool that describes how a system responds to an input at different frequencies.
+            </div>
+            <div class="equation-block">
+G(s) = Output(s) / Input(s)
+<br><br>
+where s is the complex frequency variable (s = σ + jω)
+            </div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">In the Laplace domain:</strong> Differential equations become algebraic equations, making analysis much simpler.
+            </div>
+        </div>
+        
+        <div class="example-grid">
+            <div class="example-box">
+                <div class="example-title">G<sub>vd1</sub>(s): Control-to-Output</div>
+                <div class="equation-block" style="font-size: 11px;">
+G<sub>vd1</sub>(s) = ΔV<sub>out</sub>(s) / Δd1(s)
+<br><br>
+"How does output voltage change
+for a small change in duty cycle d1?"
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">• <strong>Use:</strong> Design voltage regulation controller</div>
+                    <div class="bullet-item">• <strong>Measure:</strong> DC gain, bandwidth, phase margin</div>
+                    <div class="bullet-item">• <strong>Goal:</strong> Fast response, no overshoot</div>
+                </div>
+            </div>
+            
+            <div class="example-box">
+                <div class="example-title">G<sub>id1</sub>(s): Duty-to-Input Current</div>
+                <div class="equation-block" style="font-size: 11px;">
+G<sub>id1</sub>(s) = Δi<sub>L1</sub>(s) / Δd1(s)
+<br><br>
+"How does input current change
+for a small change in duty cycle d1?"
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">• <strong>Use:</strong> Design PFC inner current loop</div>
+                    <div class="bullet-item">• <strong>Measure:</strong> Current tracking accuracy</div>
+                    <div class="bullet-item">• <strong>Goal:</strong> Follow AC reference sinusoid</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-box">
+            <div class="section-title">How Transfer Functions Enable Controller Design</div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Step 1:</strong> Derive G(s) from linearized state-space model
+            </div>
+            <div class="equation-block">
+G(s) = C · (sI - A<sub>linear</sub>)<sup>-1</sup> · B<sub>d</sub>
+            </div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Step 2:</strong> Design controller H(s) using Bode plots
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">• Ensure loop gain L(s) = G(s)·H(s) has sufficient phase margin (typically > 45°)</div>
+                <div class="bullet-item">• Set crossover frequency for desired bandwidth (e.g., 1-5 kHz for PFC)</div>
+                <div class="bullet-item">• Add integrator for zero steady-state error</div>
+            </div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Step 3:</strong> Verify closed-loop stability
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">• Check all poles of closed-loop TF are in left-half plane (LHP)</div>
+                <div class="bullet-item">• Simulate step response for overshoot and settling time</div>
+            </div>
+        </div>
+        
+        <div class="note-section">
+            <div class="note-text">
+                <strong style="color: #f39c12;">Practical Example:</strong> For a PFC converter, G<sub>id1</sub>(s) might have a DC gain of 5 A/duty and bandwidth of 10 kHz. A PI controller H(s) = K<sub>p</sub> + K<sub>i</sub>/s is designed to achieve: (1) Unity gain crossover at 2 kHz, (2) Phase margin of 60°, and (3) Tracking error < 1% for 50 Hz AC input. This ensures high power factor (PF > 0.99) and low THD (< 5%).
+            </div>
+        </div>
+    </div>
+</body>
+</html>

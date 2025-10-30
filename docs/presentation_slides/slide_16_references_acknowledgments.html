@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 16: References and Acknowledgments</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        .content-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+        .reference-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 15px 20px;
+            border-left: 4px solid #3498db;
+        }
+        .reference-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 12px;
+        }
+        .reference-item {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .reference-number {
+            font-weight: 700;
+            color: #3498db;
+            margin-right: 5px;
+        }
+        .ack-box {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.1));
+            padding: 15px 20px;
+            border-left: 4px solid #f39c12;
+            margin-bottom: 15px;
+        }
+        .ack-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 12px;
+        }
+        .ack-item {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+        .ack-label {
+            font-weight: 700;
+            color: #ffffff;
+            margin-right: 5px;
+        }
+        .contact-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 12px 20px;
+            border-left: 4px solid #3498db;
+            text-align: center;
+        }
+        .contact-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 8px;
+        }
+        .contact-item {
+            font-size: 13px;
+            color: #e8f1f8;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">References and Acknowledgments</h1>
+        
+        <div class="content-columns">
+            <div class="reference-box">
+                <div class="reference-title">Primary References</div>
+                <div class="reference-item">
+                    <span class="reference-number">1.</span>
+                    Vinukumar Luckose, "Design and Analysis of Two-Stage Interleaved Bridgeless SEPIC-Based PFC Converter," ICCE 2022
+                </div>
+                <div class="reference-item">
+                    <span class="reference-number">2.</span>
+                    Erickson & Maksimovic, "Fundamentals of Power Electronics," 2nd Edition
+                </div>
+                <div class="reference-item">
+                    <span class="reference-number">3.</span>
+                    IEEE Std 519-2022, "Harmonic Control in Electric Power Systems"
+                </div>
+                <div class="reference-item">
+                    <span class="reference-number">4.</span>
+                    IEC 61000-3-2:2018, "Electromagnetic Compatibility - Limits for Harmonic Current Emissions"
+                </div>
+            </div>
+            
+            <div class="reference-box">
+                <div class="reference-title">Supporting Documentation</div>
+                <div class="reference-item">
+                    • Complete 36-Equation Derivation<br>
+                    &nbsp;&nbsp;(docs/detailed_analysis/)
+                </div>
+                <div class="reference-item">
+                    • Student Guide: Zero to Mastery<br>
+                    &nbsp;&nbsp;(STUDENT_GUIDE.md)
+                </div>
+                <div class="reference-item">
+                    • Master Consolidation of Research<br>
+                    &nbsp;&nbsp;(MASTER_CONSOLIDATION.md)
+                </div>
+                <div class="reference-item">
+                    • Verification Protocol<br>
+                    &nbsp;&nbsp;(GITHUB_ISSUE_VERIFICATION.md)
+                </div>
+            </div>
+        </div>
+        
+        <div class="ack-box">
+            <div class="ack-title">Acknowledgments</div>
+            <div class="ack-item">
+                <span class="ack-label">Tools:</span>
+                MATLAB/Simulink, LaTeX
+            </div>
+        </div>
+        
+        <div class="contact-box">
+            <div class="contact-title">Contact</div>
+            <div class="contact-item"><strong>Assistant:</strong> Sebastian</div>
+            <div class="contact-item"><strong>Email:</strong> sebastianchinsc@gmail.com</div>
+            <div class="contact-item"><strong>Repository:</strong> github.com/sebichin/SEPIC.analysis.9th.order</div>
+        </div>
+    </div>
+</body>
+</html>

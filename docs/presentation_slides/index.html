@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9th-Order SEPIC PFC Converter Presentation - Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #1e3a5f;
+            padding: 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .page-title {
+            font-size: 42px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .page-subtitle {
+            font-size: 18px;
+            color: #f39c12;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .slide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .slide-card {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(52, 152, 219, 0.1));
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .slide-card:hover {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(52, 152, 219, 0.15));
+            transform: translateY(-2px);
+        }
+        .slide-link {
+            text-decoration: none;
+            display: block;
+        }
+        .slide-number {
+            font-size: 14px;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+        .slide-title-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-description {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+        .info-box {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.1));
+            border-left: 4px solid #f39c12;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .info-text {
+            font-size: 14px;
+            color: #e8f1f8;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">9th-Order SEPIC PFC Converter</h1>
+        <p class="page-subtitle">Complete 36-Equation Derivation Presentation</p>
+        
+        <h2 class="section-title">Part 1: Introduction</h2>
+        <div class="slide-grid">
+            <a href="slide_01_title.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 01</div>
+                    <div class="slide-title-text">Title Slide</div>
+                    <div class="slide-description">Project title, student and supervisor information</div>
+                </div>
+            </a>
+            <a href="slide_02_system_overview.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 02</div>
+                    <div class="slide-title-text">System Overview</div>
+                    <div class="slide-description">9th-order system definition, state vector, four topologies</div>
+                </div>
+            </a>
+        </div>
+        
+        <h2 class="section-title">Part 2: Per-Topology State-Space Matrices</h2>
+        <div class="slide-grid">
+            <a href="slide_03_topology_11_matrices.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 03</div>
+                    <div class="slide-title-text">Topology 11 Matrices (Both ON)</div>
+                    <div class="slide-description">A₁₁, B₁₁ matrices with ASCII circuit diagram - Storage mode</div>
+                </div>
+            </a>
+            <a href="slide_04_topology_10_matrices.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 04</div>
+                    <div class="slide-title-text">Topology 10 Matrices (S1 ON, S2 OFF)</div>
+                    <div class="slide-description">A₁₀, B₁₀ matrices with ASCII circuit diagram</div>
+                </div>
+            </a>
+            <a href="slide_05_topology_01_matrices.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 05</div>
+                    <div class="slide-title-text">Topology 01 Matrices (S1 OFF, S2 ON)</div>
+                    <div class="slide-description">A₀₁, B₀₁ matrices with ASCII circuit diagram</div>
+                </div>
+            </a>
+            <a href="slide_06_topology_00_matrices.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 06</div>
+                    <div class="slide-title-text">Topology 00 Matrices (Both OFF)</div>
+                    <div class="slide-description">A₀₀, B₀₀ matrices - Maximum power transfer mode</div>
+                </div>
+            </a>
+            <a href="slide_07_matrices_summary.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 07</div>
+                    <div class="slide-title-text">Summary of All 4 Matrices</div>
+                    <div class="slide-description">Side-by-side comparison with pattern observations</div>
+                </div>
+            </a>
+        </div>
+        
+        <h2 class="section-title">Part 3: Per-Topology Equations (Original)</h2>
+        <div class="slide-grid">
+            <a href="slide_03_topology_11_equations.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 03 (old)</div>
+                    <div class="slide-title-text">Topology 11: Both Switches ON</div>
+                    <div class="slide-description">Maximum energy storage mode - 9 equations</div>
+                </div>
+            </a>
+            <a href="slide_04_topology_10_equations.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 04 (old)</div>
+                    <div class="slide-title-text">Topology 10: S1 ON, S2 OFF</div>
+                    <div class="slide-description">Phase 1 stores, Phase 2 transfers - 9 equations</div>
+                </div>
+            </a>
+            <a href="slide_05_topology_01_equations.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 05 (old)</div>
+                    <div class="slide-title-text">Topology 01: S1 OFF, S2 ON</div>
+                    <div class="slide-description">Phase 2 stores, Phase 1 transfers - 9 equations</div>
+                </div>
+            </a>
+            <a href="slide_06_topology_00_equations.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 06 (old)</div>
+                    <div class="slide-title-text">Topology 00: Both Switches OFF</div>
+                    <div class="slide-description">Maximum power transfer mode - 9 equations</div>
+                </div>
+            </a>
+            <a href="slide_07_summary_all_36_equations.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 07 (old)</div>
+                    <div class="slide-title-text">All 36 Equations Summary</div>
+                    <div class="slide-description">Complete equation table for all topologies</div>
+                </div>
+            </a>
+        </div>
+        
+        <h2 class="section-title">Part 4: Circuit Analysis Insights</h2>
+        <div class="slide-grid">
+            <a href="slide_08_direct_charging_insight.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 08</div>
+                    <div class="slide-title-text">Direct Charging Paths</div>
+                    <div class="slide-description">Critical insight into input inductor operation</div>
+                </div>
+            </a>
+            <a href="slide_09_output_inductor_modes.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 09</div>
+                    <div class="slide-title-text">Output Inductor Modes</div>
+                    <div class="slide-description">Storage vs. Transfer operation for L5, L6</div>
+                </div>
+            </a>
+            <a href="slide_10_capacitor_roles.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 10</div>
+                    <div class="slide-title-text">Capacitor Roles</div>
+                    <div class="slide-description">Energy staging and CPL effects</div>
+                </div>
+            </a>
+        </div>
+        
+        <h2 class="section-title">Part 5: Mathematical Framework</h2>
+        <div class="slide-grid">
+            <a href="slide_11a_introducing_converter.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 11a</div>
+                    <div class="slide-title-text">Introducing the Converter</div>
+                    <div class="slide-description">Bridgeless, interleaved, PFC architecture explained</div>
+                </div>
+            </a>
+            <a href="slide_11b_state_variables.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 11b</div>
+                    <div class="slide-title-text">Defining the 9 State Variables</div>
+                    <div class="slide-description">Energy storage elements and state vector</div>
+                </div>
+            </a>
+            <a href="slide_11_state_space_form.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 11c</div>
+                    <div class="slide-title-text">State-Space Representation</div>
+                    <div class="slide-description">From equations to matrices, A₁₁ and B₁₁</div>
+                </div>
+            </a>
+            <a href="slide_12_averaging_methodology.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 12</div>
+                    <div class="slide-title-text">Averaging Methodology</div>
+                    <div class="slide-description">From 2-state to 4-topology averaging with timing diagrams</div>
+                </div>
+            </a>
+            <a href="slide_12a_topology_physical_meaning.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 12a</div>
+                    <div class="slide-title-text">Physical Meaning: Topology 11</div>
+                    <div class="slide-description">Energy flow and storage mode operation</div>
+                </div>
+            </a>
+            <a href="slide_13_linearization_control.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 13</div>
+                    <div class="slide-title-text">Linearization for Control</div>
+                    <div class="slide-description">Jacobian derivation and small-signal analysis</div>
+                </div>
+            </a>
+            <a href="slide_13a_transfer_functions.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 13a</div>
+                    <div class="slide-title-text">What is a Transfer Function?</div>
+                    <div class="slide-description">Controller design fundamentals explained</div>
+                </div>
+            </a>
+        </div>
+        
+        <h2 class="section-title">Part 6: Conclusion</h2>
+        <div class="slide-grid">
+            <a href="slide_14_verification_status.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 14</div>
+                    <div class="slide-title-text">Verification Status</div>
+                    <div class="slide-description">Model validation checklist</div>
+                </div>
+            </a>
+            <a href="slide_15_conclusions_future_work.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 15</div>
+                    <div class="slide-title-text">Conclusions and Future Work</div>
+                    <div class="slide-description">Key achievements and next steps</div>
+                </div>
+            </a>
+            <a href="slide_16_references_acknowledgments.html" class="slide-link">
+                <div class="slide-card">
+                    <div class="slide-number">Slide 16</div>
+                    <div class="slide-title-text">References and Acknowledgments</div>
+                    <div class="slide-description">Citations and project credits</div>
+                </div>
+            </a>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-text">
+                <strong style="color: #f39c12;">Navigation Tips:</strong><br>
+                • Click any slide card to view that slide<br>
+                • Each slide is designed for 1280×720 (16:9) display<br>
+                • Press F11 for full-screen presentation mode<br>
+                • Use browser back button to return to this index<br>
+                • See README.md for detailed viewing instructions
+            </div>
+        </div>
+    </div>
+</body>
+</html>

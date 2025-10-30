@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 4: Topology 10 - S1 ON, S2 OFF</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-subtitle {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+        .circuit-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 12px;
+            border-left: 3px solid #3498db;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: #ffffff;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            white-space: pre;
+        }
+        .matrix-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.15), rgba(46, 204, 113, 0.05));
+            padding: 12px;
+            border-left: 3px solid #2ecc71;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+        .note-box {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            margin-top: 12px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+        .highlight {
+            color: #f39c12;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="slide-title">Topology 10: S1 ON, S2 OFF</div>
+        <div class="slide-subtitle">Phase 1 Storing, Phase 2 Transferring</div>
+        
+        <div class="section-title">Circuit Behavior (ASCII Diagram)</div>
+        <div class="circuit-box">
+<strong>Phase 1 (S1 ON - STORAGE):</strong>
+Vin(+) → L2 → C1 ← L5 ← S1 ← GND
+         ↓     ↑    ↑
+         charges  | reverse current continues
+
+<strong>Phase 2 (S2 OFF - TRANSFER):</strong>
+Vin(+) → L1 → C3 → L6 → D7 → C0 (output)
+         ↓     ↓    ↓    ↓    ↓
+           discharge path  - energy transfers to output
+
+<strong>Output:</strong> D7 conducts → Phase 2 delivers power (L1 + L6)
+           D8 reverse biased → Phase 1 isolated
+        </div>
+        
+        <div class="section-title">State Matrix A₁₀ (9×9) - CORRECTED</div>
+        <div class="matrix-box" style="white-space: pre;">
+A10 = [
+  0,      0,      0,      0,      0,      0,       0,      -1/L1,   -1/L1;   % diL1/dt = (Vin-vC3-vC0)/L1
+  0,      0,      0,      0,      0,      0,       0,       0,       0;      % diL2/dt = Vin/L2 (direct path)
+  0,      0,      0,      0,      0,      0,       0,       0,       0;      % diL3/dt = 0
+  0,      0,      0,      0,      0,      0,       0,       0,       0;      % diL4/dt = 0
+  0,      0,      0,      0,      0,      0,      -1/L5,    0,       0;      % diL5/dt = -vC1/L5
+  0,      0,      0,      0,      0,      0,       0,       0,       1/L6;   % diL6/dt = vC0/L6 (parallel)
+  0,      0,      0,      0,     -1/C1,   0,       0,       0,       0;      % dvC1/dt = (-iL5)/C1
+ <span class="highlight">1/C3</span>,     0,      0,      0,      0,      0,       0,       0,       0;      % dvC3/dt = <span class="highlight">iL1/C3</span>
+ <span class="highlight">1/C0</span>,     0,      0,      0,      0,     <span class="highlight">1/C0</span>,    0,       0,       0;      % dvC0/dt = <span class="highlight">(iL1+iL6-P/vC0)/C0</span>
+];
+        </div>
+        
+        <div class="section-title">Input Matrix B₁₀ and CPL Term</div>
+        <div class="matrix-box">
+B10 = [1/L1; 1/L2; 0; 0; 0; 0; 0; 0; 0];
+
+f_CPL = [0; 0; 0; 0; 0; 0; 0; 0; -P/(C0·vC0)]  (nonlinear CPL load term)
+        </div>
+        
+        <div class="note-box">
+            <div class="note-text">
+                <strong class="highlight">Key Correction:</strong> Row 8 shows <strong>iC3 = iL1</strong> (capacitor receives current from L1 as it discharges). Row 9 shows <strong>both L1 and L6 contribute</strong> to output current: dvC0/dt = (iL1 + iL6 - P/vC0)/C0.
+            </div>
+        </div>
+        
+        <div class="note-box">
+            <div class="note-text">
+                <strong class="highlight">Physical Meaning:</strong> Phase 1 continues storing (L2, C1, L5 same as Topology 11). Phase 2 transfers energy: L1 discharges through C3→L6→D7 to output. Both L1 and L6 currents contribute to charging C0 while supplying the CPL load.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

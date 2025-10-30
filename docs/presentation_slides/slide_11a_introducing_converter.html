@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 11a: Introducing the Converter</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-subtitle {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .content-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 15px 20px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 15px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        .description-text {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+        .bullet-list {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        .bullet-item {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .comparison-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 4px;
+        }
+        .comparison-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 8px;
+        }
+        .note-section {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">Introducing the Interleaved Bridgeless SEPIC PFC Converter</h1>
+        <p class="slide-subtitle">Understanding Our Advanced Topology</p>
+        
+        <div class="content-box">
+            <div class="section-title">What Makes This Converter Special?</div>
+            <div class="description-text">
+                Our converter combines three advanced features to achieve high-efficiency power factor correction:
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item"><strong style="color: #3498db;">• Bridgeless:</strong> Eliminates the input diode bridge rectifier, reducing conduction losses by ~1-2% efficiency gain</div>
+                <div class="bullet-item"><strong style="color: #3498db;">• Interleaved:</strong> Two phases operate with shifted timing, reducing input/output current ripple by ~50%</div>
+                <div class="bullet-item"><strong style="color: #3498db;">• PFC (Power Factor Correction):</strong> Shapes input current to follow input voltage, achieving PF > 0.99 and THD < 5%</div>
+            </div>
+        </div>
+        
+        <div class="content-box">
+            <div class="section-title">Circuit Architecture</div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Key Components:</strong>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">• <strong>6 Inductors:</strong> L1, L2 (Phase 2 input), L3, L4 (unused in positive half-cycle), L5, L6 (output inductors)</div>
+                <div class="bullet-item">• <strong>3 Capacitors:</strong> C1 (Phase 1 coupling), C3 (Phase 2 coupling), C0 (output)</div>
+                <div class="bullet-item">• <strong>2 Switches:</strong> S1 (Phase 1), S2 (Phase 2) - actively controlled at ~50 kHz</div>
+                <div class="bullet-item">• <strong>2 Output Diodes:</strong> D7, D8 - passively conduct based on voltage polarities</div>
+            </div>
+        </div>
+        
+        <div class="comparison-grid">
+            <div class="comparison-box">
+                <div class="comparison-title">Standard SEPIC (4th-Order)</div>
+                <div class="bullet-list">
+                    <div class="bullet-item">• 2 inductors (L₁, L₂)</div>
+                    <div class="bullet-item">• 2 capacitors (C₁, C_out)</div>
+                    <div class="bullet-item">• 1 switch (S)</div>
+                    <div class="bullet-item">• 2 states (ON/OFF)</div>
+                    <div class="bullet-item">• Simple to analyze</div>
+                </div>
+            </div>
+            <div class="comparison-box">
+                <div class="comparison-title">Our Converter (9th-Order)</div>
+                <div class="bullet-list">
+                    <div class="bullet-item">• 6 inductors (L1-L6)</div>
+                    <div class="bullet-item">• 3 capacitors (C1, C3, C0)</div>
+                    <div class="bullet-item">• 2 switches (S1, S2)</div>
+                    <div class="bullet-item">• 4 topologies (11, 10, 01, 00)</div>
+                    <div class="bullet-item">• Complex but high-performance</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="note-section">
+            <div class="note-text">
+                <strong style="color: #f39c12;">Why the Complexity?</strong> The increased component count enables: (1) Bidirectional power flow capability, (2) Reduced electromagnetic interference (EMI), (3) Higher efficiency under varying loads, and (4) Better thermal management through distributed heat generation. The trade-off is increased modeling and control complexity, which this presentation addresses systematically.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

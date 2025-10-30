@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide 11: State-Space Representation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #1e3a5f;
+            padding: 30px 50px;
+        }
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .slide-subtitle {
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .math-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            padding: 15px 20px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 15px;
+        }
+        .math-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .equation-block {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 8px 0;
+        }
+        .description-text {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+        .bullet-list {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        .bullet-item {
+            font-size: 13px;
+            color: #e8f1f8;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+        .matrix-display {
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note-section {
+            background: linear-gradient(90deg, rgba(243, 156, 18, 0.2), rgba(243, 156, 18, 0.08));
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-left: 4px solid #f39c12;
+        }
+        .note-text {
+            font-size: 12px;
+            color: #e8f1f8;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">From Circuit Analysis to State-Space Representation</h1>
+        <p class="slide-subtitle">Organizing KVL/KCL Equations into Matrix Form</p>
+        
+        <div class="math-box">
+            <div class="math-title">What Are "Level 1" and "Level 2"?</div>
+            <div class="description-text">
+                <strong style="color: #3498db;">Level 1 (Circuit Analysis):</strong> Apply Kirchhoff's laws (KVL/KCL) to each component. Results in individual differential equations like "diL1/dt = Vin/L1" or "dvC1/dt = (-iL5)/C1".
+            </div>
+            <div class="description-text">
+                <strong style="color: #3498db;">Level 2 (State-Space Form):</strong> Organize these equations into a structured matrix format: ẋ = A·x + B·u. This enables systematic analysis using linear algebra tools (eigenvalues, transfer functions, controllability).
+            </div>
+        </div>
+        
+        <div class="math-box">
+            <div class="math-title">Baseline: Standard SEPIC Converter (4th-Order)</div>
+            <div class="description-text">
+                A basic SEPIC has 2 inductors (L₁, L₂) and 2 capacitors (C₁, C_out) → 4 state variables
+            </div>
+            <div class="equation-block">
+x = [iL1, vC1, iL2, vout]<sup>T</sup>
+<br>
+ẋ = A·x + B·V<sub>in</sub>  (separate A₁, A₂ for switch ON/OFF states)
+            </div>
+            <div class="description-text" style="margin-top: 8px;">
+                <strong style="color: #3498db;">Why this project needs 9th-order:</strong> Two-phase interleaved + bridgeless topology<br>
+                → 4 input inductors (L1-L4), 2 output inductors (L5-L6), 3 capacitors (C1, C3, C0) = 9 states
+            </div>
+        </div>
+        
+        <div class="math-box">
+            <div class="math-title">How an Equation Becomes a Matrix Row: Example for dvC1/dt (Topology 11)</div>
+            <div class="description-text">
+                <strong style="color: #ffffff;">Step 1 - Circuit Analysis (Level 1):</strong> Apply KCL at C1 node for Topology 11.
+            </div>
+            <div class="description-text">
+                Since <strong>C1 and L5 are in series</strong>, we have: <strong>iC1 = iL5</strong><br>
+                From capacitor equation: iC1 = C1·(dvC1/dt), therefore: <strong>iL5 = C1·(dvC1/dt)</strong><br>
+                Solving for dvC1/dt: <strong>dvC1/dt = iL5/C1</strong>
+            </div>
+            <div class="description-text">
+                But in Topology 11, iL5 &lt; 0 (reverse current). To show charging, we write: <strong>dvC1/dt = (-iL5)/C1</strong>
+            </div>
+            <div class="description-text" style="margin-top: 8px;">
+                <strong style="color: #ffffff;">Step 2 - Matrix Form (Level 2):</strong> Express as linear combination of all state variables:
+            </div>
+            <div class="equation-block">
+dvC1/dt = 0·iL1 + 0·iL2 + 0·iL3 + 0·iL4 + (-1/C1)·iL5 + 0·iL6 + 0·vC1 + 0·vC3 + 0·vC0
+            </div>
+            <div class="description-text" style="margin-top: 8px;">
+                <strong style="color: #3498db;">→ Row 7 of A₁₁:</strong> [0, 0, 0, 0, <strong style="color: #f39c12;">-1/C1</strong>, 0, 0, 0, 0]
+            </div>
+            <div class="description-text">
+                <strong>The coefficient of each state variable becomes a matrix element.</strong> This systematic process converts 9 KVL/KCL equations into a 9×9 matrix where each row corresponds to one state variable's derivative.
+            </div>
+        </div>
+        
+        <div class="math-box">
+            <div class="math-title">Our 9th-Order System (4 Topologies)</div>
+            <div class="equation-block">
+x = [iL1, iL2, iL3, iL4, iL5, iL6, vC1, vC3, vC0]<sup>T</sup>
+<br><br>
+For each topology k ∈ {11, 10, 01, 00}:
+<br>
+ẋ = A<sub>k</sub> · x + B<sub>k</sub> · V<sub>in</sub> + f<sub>CPL</sub>(vC0)
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">• <strong>A<sub>k</sub></strong> = 9×9 system matrix (varies by switch states)</div>
+                <div class="bullet-item">• <strong>B<sub>k</sub></strong> = 9×1 input matrix (V<sub>in</sub> coupling paths)</div>
+                <div class="bullet-item">• <strong>f<sub>CPL</sub></strong> = [0, 0, 0, 0, 0, 0, 0, 0, -P/(C0·vC0)]<sup>T</sup> (CPL load)</div>
+            </div>
+        </div>
+        
+        <div class="math-box">
+            <div class="math-title">Topology-Specific Matrices</div>
+            <div class="description-text">
+                For complete details of all 4 topology matrices (A₁₁, A₁₀, A₀₁, A₀₀), see <strong>Slides 3-7</strong>.<br>
+                Each topology has its own 9×9 state matrix reflecting different switch configurations and current paths.
+            </div>
+        </div>
+        
+        <div class="note-section">
+            <div class="note-text">
+                <strong style="color: #f39c12;">Why This Matters:</strong> State-space form enables powerful analysis tools:
+                • <strong>Eigenvalue analysis</strong> for stability assessment
+                • <strong>Transfer functions</strong> for controller design (Slides 13-14)
+                • <strong>Averaging across topologies</strong> to capture interleaved operation (Slide 12)
+            </div>
+        </div>
+    </div>
+</body>
+</html>
