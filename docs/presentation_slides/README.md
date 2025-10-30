@@ -259,8 +259,8 @@ To update slides:
 
 **Project**: 9th-Order SEPIC PFC Converter Analysis  
 **Repository**: github.com/sebichin/SEPIC.analysis.9th.order  
-**Student**: sebichin  
-**Email**: sebichin2000@gmail.com
+**Student**: Sebastian  
+**Email**: sebastianchinsc@gmail.com
 
 ---
 

@@ -245,7 +245,7 @@ Full bibliography available in `MASTER_CONSOLIDATION.md` and research documents.
 
 ### 📧 Questions or Clarifications?
 If you have questions during your review:
-- **Email:** sebichin2000@gmail.com
+- **Email:** sebastianchinsc@gmail.com
 - **Preferred contact:** Email with specific section references
 - **Response time:** Within 24-48 hours
 

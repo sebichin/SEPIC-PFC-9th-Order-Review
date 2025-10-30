@@ -638,8 +638,8 @@ G(s) = C·(sI - Alinear)⁻¹·Bd
 - **Open-Source Community:** pigpio, MJPG-streamer, TensorFlow examples
 
 **Contact:**
-- **Student:** sebichin
-- **Email:** sebichin2000@gmail.com
+- **Student:** Sebastian
+- **Email:** sebastianchinsc@gmail.com
 - **Repository:** github.com/sebichin/SEPIC.analysis.9th.order
 
 ---
