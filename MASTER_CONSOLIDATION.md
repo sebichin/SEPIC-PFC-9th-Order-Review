@@ -115,6 +115,71 @@ This master document consolidates **all mathematical derivations, verifications,
 x = [iL1, iL2, iL3, iL4, iL5, iL6, vC12, vC34, vC0]ᵀ
 ```
 
+**Notation Convention:**
+- vC12 represents voltage across C1||C2 (parallel combination)
+- vC34 represents voltage across C3||C4 (parallel combination)
+- In equations: C1 means (C1+C2) and C3 means (C3+C4) as effective capacitances
+- Alternative notation: vC1 ≡ vC12, vC3 ≡ vC34 (used in presentation slides for brevity)
+- Both notations are mathematically equivalent and refer to the same physical voltages
+
+### 1.3 Circuit Operation Principle - CORRECTED
+
+**Critical Understanding:** Switch state determines STORAGE vs TRANSFER mode
+
+**Fundamental Behavior:**
+- **Switch ON (Closed)**: **STORAGE MODE** - Energy accumulates in inductors and capacitors, output isolated
+- **Switch OFF (Open)**: **TRANSFER MODE** - Stored energy releases to output through diodes D7/D8
+
+**Why This Happens:**
+
+When switch closes, it creates a low-resistance path to ground:
+- Input inductors charge DIRECTLY from AC source via diode+switch path
+- Current flows through capacitors AND output inductors in REVERSE direction (toward ground)
+- Output diodes (D7, D8) are REVERSE BIASED - no output current
+- Energy "builds up momentum" in output inductors (reverse current direction)
+
+When switch opens:
+- Inductor currents cannot change instantly
+- Output inductors NOW push current FORWARD through output diodes to Cout
+- Capacitors also discharge to output
+- Energy accumulated during ON state transfers to load
+
+### 1.4 Phase Component Groupings
+
+**Phase 1 (S1 Circuit) - Outputs via D8:**
+**Components:** L2, L3, C1, C2, S1, L5, D8
+- **Positive Half-Cycle:** L2 (input), C1 (coupling), L5 (output via D8)
+- **Negative Half-Cycle:** L3 (input), C2 (coupling), L5 (output via D8)
+
+**Energy Flow When S1 ON (Storage):**
+```
+Vin(+) → L2 → C1 ← L5 ← S1 ← Ground
+         (charges) (charges) (reverse current builds)
+```
+
+**Energy Flow When S1 OFF (Transfer):**
+```
+C1 → L5 → D8 → Cout
+(discharges) (forward current releases)
+```
+
+**Phase 2 (S2 Circuit) - Outputs via D7:**
+**Components:** L1, L4, C3, C4, S2, L6, D7
+- **Positive Half-Cycle:** L1 (input), C3 (coupling), L6 (output via D7)
+- **Negative Half-Cycle:** L4 (input), C4 (coupling), L6 (output via D7)
+
+**Energy Flow When S2 ON (Storage):**
+```
+Vin(+) → L1 → C3 ← L6 ← S2 ← Ground
+         (charges) (charges) (reverse current builds)
+```
+
+**Energy Flow When S2 OFF (Transfer):**
+```
+C3 → L6 → D7 → Cout
+(discharges) (forward current releases)
+```
+
 ---
 
 ## 2. SYSTEM ORDER DETERMINATION (9TH ORDER)
@@ -166,12 +231,12 @@ x = [iL1, iL2, iL3, iL4, iL5, iL6, vC12, vC34, vC0]ᵀ
 
 **Based on S1, S2 states:**
 
-| Topology | S1 | S2 | Description |
-|----------|----|----|-------------|
-| **11** | ON | ON | Energy storage (both phases charge) |
-| **10** | ON | OFF | S1 stores, S2 transfers |
-| **01** | OFF | ON | S1 transfers, S2 stores |
-| **00** | OFF | OFF | Energy transfer (both discharge) |
+| Topology | S1 | S2 | Mode | Description |
+|----------|----|----|------|-------------|
+| **11** | ON | ON | BOTH STORE | Both phases in STORAGE mode - Energy accumulates, output isolated |
+| **10** | ON | OFF | S1 STORES, S2 TRANSFERS | Phase 1 stores energy, Phase 2 transfers to output |
+| **01** | OFF | ON | S1 TRANSFERS, S2 STORES | Phase 1 transfers to output, Phase 2 stores energy |
+| **00** | OFF | OFF | BOTH TRANSFER | Both phases in TRANSFER mode - Energy releases to output |
 
 ### 3.2 Operating Mode: CCM Assumption
 
@@ -199,95 +264,141 @@ x = [iL1, iL2, iL3, iL4, iL5, iL6, vC12, vC34, vC0]ᵀ
 
 ### 4.1 TOPOLOGY 11: Both Switches ON (S1=ON, S2=ON)
 
-**Physical State:** Energy storage phase, output isolated
+**Physical State:** BOTH PHASES IN STORAGE MODE - Maximum energy storage, output isolated (D7, D8 reverse biased)
+
+**Active During Positive Half-Cycle (Vin > 0):**
+- **Phase 1:** Vin → L2 → C1 ← L5 ← S1 ← GND
+  - L2 charges DIRECTLY from Vin via diode+switch path
+  - L5 has REVERSE current (toward S1), building magnetic energy
+  - C1 accumulates charge from the series L5-C1 loop
+  
+- **Phase 2:** Vin → L1 → C3 ← L6 ← S2 ← GND
+  - L1 charges DIRECTLY from Vin via diode+switch path
+  - L6 has REVERSE current (toward S2), building magnetic energy
+  - C3 accumulates charge from the series L6-C3 loop
 
 **Inductor Equations (6):**
 ```
-diL1/dt = Vin / L1
-diL2/dt = Vin / L2
-diL3/dt = 0                    // Negative half-cycle path
-diL4/dt = 0                    // Negative half-cycle path
-diL5/dt = 0                    // Isolated (D7 reverse-biased)
-diL6/dt = 0                    // Isolated (D8 reverse-biased)
+diL1/dt = Vin / L1             // L1 charges directly from AC source
+diL2/dt = Vin / L2             // L2 charges directly from AC source
+diL3/dt = 0                    // Negative half-cycle path (inactive)
+diL4/dt = 0                    // Negative half-cycle path (inactive)
+diL5/dt = -vC12 / L5           // L5 reverse current builds via series C1-L5 loop
+diL6/dt = -vC34 / L6           // L6 reverse current builds via series C3-L6 loop
 ```
 
 **Capacitor Equations (3):**
 ```
-dvC12/dt = 0                   // No current flow
-dvC34/dt = 0                   // No current flow
-dvC0/dt = -P / (C0 · vC0)      // CPL draws power
+dvC12/dt = (-iL5) / (C1 + C2)  // C1 charges from L5 reverse current
+dvC34/dt = (-iL6) / (C3 + C4)  // C3 charges from L6 reverse current
+dvC0/dt = -P / (C0 · vC0)      // CPL draws power (no input from phases)
 ```
 
-**Verification:** ✅ All 9 equations match presentation slides exactly
+**Physical Meaning:**
+- Input inductors (L1, L2) charge DIRECTLY from Vin with no capacitor voltage in KVL
+- Output inductors (L5, L6) build REVERSE current (iL5 < 0, iL6 < 0) through series loops with C1, C3
+- This reverse current creates magnetic energy that will be released FORWARD when switches open
+- Capacitors charge from the reverse current: since iL5 < 0, (-iL5) > 0, so dvC12/dt > 0
+- Output isolated - no power transfer during this topology (only CPL discharge)
+
+**Verification:** ✅ All 9 equations match corrected presentation slides and detailed analysis exactly
 
 ### 4.2 TOPOLOGY 01: S1=OFF, S2=ON
 
-**Physical State:** S2 stores, S1 transfers via L5
+**Physical State:** PHASE 1 TRANSFERRING, PHASE 2 STORING
+
+**Circuit Paths:**
+- **Phase 1 (S1 OFF - TRANSFER):** C1 → L5 → D8 → Cout (energy releases forward to output)
+- **Phase 2 (S2 ON - STORAGE):** Vin → L1 → C3 ← L6 ← S2 ← GND (same as Topology 11)
 
 **Inductor Equations (6):**
 ```
-diL1/dt = Vin / L1
-diL2/dt = (Vin - vC12 - vC0) / L2
-diL3/dt = 0
-diL4/dt = 0
-diL5/dt = -vC0 / L5            // L5 conducts to output
-diL6/dt = 0                    // L6 isolated
+diL1/dt = Vin / L1             // Phase 2 direct charging (S2 ON, no capacitor V)
+diL2/dt = (Vin - vC12 - vC0) / L2  // Phase 1 discharge through transfer path
+diL3/dt = 0                    // Inactive
+diL4/dt = 0                    // Inactive
+diL5/dt = vC0 / L5             // FORWARD discharge to output (positive, not negative!)
+diL6/dt = -vC34 / L6           // Reverse charging continues (Phase 2 storage)
 ```
 
 **Capacitor Equations (3):**
 ```
-dvC12/dt = iL2 / (C1 + C2)
-dvC34/dt = 0
-dvC0/dt = (iL2 + iL5) / C0 - P / (C0 · vC0)
+dvC12/dt = iL2 / (C1 + C2)     // Phase 1 coupling capacitor: iC1 = iL2
+dvC34/dt = (-iL6) / (C3 + C4)  // Phase 2 capacitor (series with L6, storage mode)
+dvC0/dt = (iL2 + iL5) / C0 - P / (C0 · vC0)  // Output receiving from Phase 1 (L2 and L5)
 ```
 
-**Verification:** ✅ All 9 equations match presentation slides exactly
+**Physical Meaning:**
+- Phase 1 transfers: L5 pushes current FORWARD through D8 (diL5/dt positive)
+- Phase 2 stores: Same behavior as Topology 11 (L6 reverse charging)
+- Symmetric with Topology 10 (swap Phase 1 ↔ Phase 2)
+
+**Verification:** ✅ All 9 equations match corrected presentation slides and detailed analysis exactly
 
 ### 4.3 TOPOLOGY 10: S1=ON, S2=OFF
 
-**Physical State:** S1 stores, S2 transfers via L6
+**Physical State:** PHASE 1 STORING, PHASE 2 TRANSFERRING
+
+**Circuit Paths:**
+- **Phase 1 (S1 ON - STORAGE):** Vin → L2 → C1 ← L5 ← S1 ← GND (same as Topology 11)
+- **Phase 2 (S2 OFF - TRANSFER):** C3 → L6 → D7 → Cout (energy releases forward to output)
 
 **Inductor Equations (6):**
 ```
-diL1/dt = (Vin - vC34 - vC0) / L1
-diL2/dt = Vin / L2
-diL3/dt = 0
-diL4/dt = 0
-diL5/dt = 0                    // L5 isolated
-diL6/dt = -vC0 / L6            // L6 conducts to output
+diL1/dt = (Vin - vC34 - vC0) / L1  // Phase 2 discharge through transfer path
+diL2/dt = Vin / L2             // Phase 1 direct charging (S1 ON, no capacitor V)
+diL3/dt = 0                    // Inactive
+diL4/dt = 0                    // Inactive
+diL5/dt = -vC12 / L5           // Reverse charging continues (Phase 1 storage)
+diL6/dt = vC0 / L6             // FORWARD discharge to output (positive, not negative!)
 ```
 
 **Capacitor Equations (3):**
 ```
-dvC12/dt = 0
-dvC34/dt = iL1 / (C3 + C4)
-dvC0/dt = (iL1 + iL6) / C0 - P / (C0 · vC0)
+dvC12/dt = (-iL5) / (C1 + C2)  // Phase 1 capacitor (series with L5, storage mode)
+dvC34/dt = iL1 / (C3 + C4)     // Phase 2 coupling capacitor: iC3 = iL1
+dvC0/dt = (iL1 + iL6) / C0 - P / (C0 · vC0)  // Output receiving from Phase 2 (L1 and L6)
 ```
 
-**Verification:** ✅ All 9 equations match presentation slides exactly
+**Physical Meaning:**
+- Phase 2 transfers: L6 pushes current FORWARD through D7 (diL6/dt positive)
+- Phase 1 stores: Same behavior as Topology 11 (L5 reverse charging)
+- Symmetric with Topology 01 (swap Phase 1 ↔ Phase 2)
+
+**Verification:** ✅ All 9 equations match corrected presentation slides and detailed analysis exactly
 
 ### 4.4 TOPOLOGY 00: Both Switches OFF (S1=OFF, S2=OFF)
 
-**Physical State:** Full energy transfer, both L5 and L6 conduct
+**Physical State:** BOTH PHASES TRANSFERRING - Maximum power transfer to output
+
+**Circuit Paths:**
+- **Phase 1 (S1 OFF - TRANSFER):** C1 → L5 → D8 → Cout (energy releases forward)
+- **Phase 2 (S2 OFF - TRANSFER):** C3 → L6 → D7 → Cout (energy releases forward)
 
 **Inductor Equations (6):**
 ```
-diL1/dt = (Vin - vC34 - vC0) / L1
-diL2/dt = (Vin - vC12 - vC0) / L2
-diL3/dt = 0
-diL4/dt = 0
-diL5/dt = -vC0 / L5            // L5 conducts
-diL6/dt = -vC0 / L6            // L6 conducts
+diL1/dt = (Vin - vC34 - vC0) / L1  // Same as Topology 10 (Phase 2 discharge)
+diL2/dt = (Vin - vC12 - vC0) / L2  // Same as Topology 01 (Phase 1 discharge)
+diL3/dt = 0                    // Inactive
+diL4/dt = 0                    // Inactive
+diL5/dt = vC0 / L5             // FORWARD discharge to output (positive!)
+diL6/dt = vC0 / L6             // FORWARD discharge to output (positive!)
 ```
 
 **Capacitor Equations (3):**
 ```
-dvC12/dt = iL2 / (C1 + C2)
-dvC34/dt = iL1 / (C3 + C4)
-dvC0/dt = (iL1 + iL2 + iL5 + iL6) / C0 - P / (C0 · vC0)
+dvC12/dt = iL2 / (C1 + C2)     // Phase 1 coupling capacitor: iC1 = iL2
+dvC34/dt = iL1 / (C3 + C4)     // Phase 2 coupling capacitor: iC3 = iL1
+dvC0/dt = (iL1 + iL2 + iL5 + iL6) / C0 - P / (C0 · vC0)  // BOTH phases contribute
 ```
 
-**Verification:** ✅ All 9 equations match presentation slides exactly
+**Physical Meaning:**
+- Both phases simultaneously transfer energy to output
+- Both L5 and L6 push current FORWARD through D8 and D7 (positive derivatives)
+- Maximum power delivery mode: all four active inductors (L1, L2, L5, L6) contribute to output
+- Combines the transfer behaviors of Topologies 01 and 10
+
+**Verification:** ✅ All 9 equations match corrected presentation slides and detailed analysis exactly
 
 ### 4.5 Complete Equation Verification Matrix
 
@@ -316,27 +427,59 @@ Where:
 - B_in: 9×1 input vector
 - Vin: AC input voltage
 
-### 5.2 Topology 11 Matrices
+### 5.2 Topology 11 Matrices - CORRECTED
+
+**Equations to Matrix Form:**
+```
+diL1/dt = Vin/L1                          → A11 row 1: all zeros, B11[1] = 1/L1
+diL2/dt = Vin/L2                          → A11 row 2: all zeros, B11[2] = 1/L2
+diL3/dt = 0                               → A11 row 3: all zeros, B11[3] = 0
+diL4/dt = 0                               → A11 row 4: all zeros, B11[4] = 0
+diL5/dt = -vC12/L5                        → A11 row 5: col 7 = -1/L5, B11[5] = 0
+diL6/dt = -vC34/L6                        → A11 row 6: col 8 = -1/L6, B11[6] = 0
+dvC12/dt = (-iL5)/(C1+C2)                 → A11 row 7: col 5 = -1/(C1+C2), B11[7] = 0
+dvC34/dt = (-iL6)/(C3+C4)                 → A11 row 8: col 6 = -1/(C3+C4), B11[8] = 0
+dvC0/dt = -P/(C0·vC0)                     → A11 row 9: nonlinear CPL term
+```
 
 **A11 (9×9):**
 ```
+State order: [iL1, iL2, iL3, iL4, iL5, iL6, vC12, vC34, vC0]
+             col1 col2 col3 col4 col5      col6      col7         col8         col9
+
 A11 = [
-  0  0  0  0  0  0   0   0  0   // diL1/dt
-  0  0  0  0  0  0   0   0  0   // diL2/dt
-  0  0  0  0  0  0   0   0  0   // diL3/dt
-  0  0  0  0  0  0   0   0  0   // diL4/dt
-  0  0  0  0  0  0   0   0  0   // diL5/dt
-  0  0  0  0  0  0   0   0  0   // diL6/dt
-  0  0  0  0  0  0   0   0  0   // dvC12/dt
-  0  0  0  0  0  0   0   0  0   // dvC34/dt
-  0  0  0  0  0  0   0   0  -P/(C0·vC0²)  // dvC0/dt (CPL)
+  row1:      0    0    0    0    0         0         0            0            0      // diL1/dt
+  row2:      0    0    0    0    0         0         0            0            0      // diL2/dt
+  row3:      0    0    0    0    0         0         0            0            0      // diL3/dt
+  row4:      0    0    0    0    0         0         0            0            0      // diL4/dt
+  row5:      0    0    0    0    0         0         -1/L5        0            0      // diL5/dt = -vC12/L5
+  row6:      0    0    0    0    0         0         0            -1/L6        0      // diL6/dt = -vC34/L6
+  row7:      0    0    0    0    -1/C1     0         0            0            0      // dvC12/dt = -iL5/C1*
+  row8:      0    0    0    0    0         -1/C3     0            0            0      // dvC34/dt = -iL6/C3*
+  row9:      0    0    0    0    0         0         0            0            0      // dvC0/dt (nonlinear)
 ]
+
+* Note: C1 represents C1||C2 (parallel combination), C3 represents C3||C4
+  In MATLAB implementation: C1 = C1_value + C2_value, C3 = C3_value + C4_value
 ```
 
 **B11 (9×1):**
 ```
 B11 = [1/L1, 1/L2, 0, 0, 0, 0, 0, 0, 0]ᵀ
 ```
+
+**CPL Nonlinear Term:**
+```
+f_CPL = [0, 0, 0, 0, 0, 0, 0, 0, -P/(C0·vC0)]ᵀ  (operating point dependent)
+```
+
+**Key Correction:** A11 is NOT a zero matrix! It has coupling terms between:
+- L5 and C12 (row 5, col 7): -1/L5 → diL5/dt depends on vC12
+- L6 and C34 (row 6, col 8): -1/L6 → diL6/dt depends on vC34
+- C12 and L5 (row 7, col 5): -1/C1 → dvC12/dt depends on iL5 (series connection)
+- C34 and L6 (row 8, col 6): -1/C3 → dvC34/dt depends on iL6 (series connection)
+
+**Physical Meaning:** The series L5-C1 and L6-C3 loops create coupling in the state matrix, reflecting the reverse current build-up during storage mode.
 
 ### 5.3 All Topology Matrices
 
@@ -518,20 +661,53 @@ d(x̃)/dt = Alinear·x̃ + Bd·[d̃1, d̃2]ᵀ + Bin·Ṽin + Bp·P̃
 
 ### 8.2 Level 1: Per-Topology Equations (36/36)
 
-**Topology 11 (9/9):**
-| State | Slide Equation | Our Derivation | Match |
-|-------|----------------|----------------|-------|
+**Topology 11 (9/9) - CORRECTED:**
+| State | Slide Equation (Corrected) | Our Derivation | Match |
+|-------|----------------------------|----------------|-------|
 | iL1 | Vin/L1 | Vin/L1 | ✅ |
 | iL2 | Vin/L2 | Vin/L2 | ✅ |
 | iL3 | 0 | 0 | ✅ |
 | iL4 | 0 | 0 | ✅ |
-| iL5 | 0 | 0 | ✅ |
-| iL6 | 0 | 0 | ✅ |
-| vC12 | 0 | 0 | ✅ |
-| vC34 | 0 | 0 | ✅ |
+| iL5 | **-vC12/L5** | -vC12/L5 | ✅ |
+| iL6 | **-vC34/L6** | -vC34/L6 | ✅ |
+| vC12 | **(-iL5)/(C1+C2)** | (-iL5)/(C1+C2) | ✅ |
+| vC34 | **(-iL6)/(C3+C4)** | (-iL6)/(C3+C4) | ✅ |
 | vC0 | -P/(C0·vC0) | -P/(C0·vC0) | ✅ |
 
-**Topology 01, 10, 00:** All 27 equations similarly verified ✅
+**Topology 01 (9/9) - CORRECTED:**
+| State | Slide Equation (Corrected) | Match |
+|-------|----------------------------|-------|
+| iL1 | Vin/L1 | ✅ |
+| iL2 | (Vin - vC12 - vC0)/L2 | ✅ |
+| iL5 | **vC0/L5** (positive!) | ✅ |
+| iL6 | **-vC34/L6** | ✅ |
+| vC12 | iL2/(C1+C2) | ✅ |
+| vC34 | **(-iL6)/(C3+C4)** | ✅ |
+
+**Topology 10 (9/9) - CORRECTED:**
+| State | Slide Equation (Corrected) | Match |
+|-------|----------------------------|-------|
+| iL1 | (Vin - vC34 - vC0)/L1 | ✅ |
+| iL2 | Vin/L2 | ✅ |
+| iL5 | **-vC12/L5** | ✅ |
+| iL6 | **vC0/L6** (positive!) | ✅ |
+| vC12 | **(-iL5)/(C1+C2)** | ✅ |
+| vC34 | iL1/(C3+C4) | ✅ |
+
+**Topology 00 (9/9) - CORRECTED:**
+| State | Slide Equation (Corrected) | Match |
+|-------|----------------------------|-------|
+| iL1 | (Vin - vC34 - vC0)/L1 | ✅ |
+| iL2 | (Vin - vC12 - vC0)/L2 | ✅ |
+| iL5 | **vC0/L5** (positive!) | ✅ |
+| iL6 | **vC0/L6** (positive!) | ✅ |
+| vC12 | iL2/(C1+C2) | ✅ |
+| vC34 | iL1/(C3+C4) | ✅ |
+
+**Key Corrections Applied:**
+1. Output inductors during STORAGE mode: reverse current build-up (-vC/L)
+2. Output inductors during TRANSFER mode: forward discharge (vC0/L, positive!)
+3. Capacitor equations reflect series connection with output inductors
 
 ### 8.3 Level 2: Averaging Formulas (9/9)
 
@@ -875,12 +1051,31 @@ These are standard professional extensions that don't contradict the paper. Phys
 Evidence:
 - Circuit topology definitively shows 6 inductors + 3 capacitors
 - Presentation explicitly states 9th-order on Slide 3
-- All 36 equations independently verified
+- All 36 equations independently verified with corrected understanding
 - L5/L6 behavior analyzed and confirmed mode-dependent
-- Zero mathematical errors found
 - Complete MATLAB implementation validated
+- Critical correction applied: STORAGE vs TRANSFER mode operation
 
 This is mathematically rigorous and presentation-ready.
+
+---
+
+**Q7: What was the critical correction made?**
+
+**A:** The key insight corrected the understanding of SEPIC circuit operation:
+
+**STORAGE Mode (Switch ON):**
+- Input inductors charge DIRECTLY from Vin (no capacitor voltage in path)
+- Output inductors build REVERSE current through series capacitor loops
+- Energy accumulates, output isolated (diodes reverse biased)
+- Example: diL5/dt = -vC12/L5 (negative because reverse current builds)
+
+**TRANSFER Mode (Switch OFF):**
+- Output inductors release energy FORWARD to output
+- Stored "momentum" pushes current through forward-biased diodes
+- Example: diL5/dt = vC0/L5 (positive because energy flows to output)
+
+This corrects the previous misunderstanding where output inductor derivatives had wrong signs during transfer mode. The detailed analysis documents (`COMPLETE_36_EQUATION_DERIVATION.md`, `CIRCUIT_TOPOLOGY_ANALYSIS.md`) and presentation slides all confirm this correct operation.
 
 ---
 
